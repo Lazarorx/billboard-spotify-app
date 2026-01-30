@@ -292,26 +292,7 @@ month = st.sidebar.selectbox(
     format_func=lambda x: datetime(2000, x, 1).strftime('%B')
 )
 
-# Rodapé da sidebar
-st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
-st.sidebar.markdown("""
-<div style='background: white; padding: 20px; border-radius: 12px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 30px;'>
-    <div style='text-align: center; margin-bottom: 15px;'>
-        <div style='width: 40px; height: 4px; background: linear-gradient(90deg, #667eea, #764ba2); 
-                    margin: 0 auto; border-radius: 2px;'></div>
-    </div>
-    <p style='color: #6B7280; font-size: 0.85em; text-align: center; margin: 0; line-height: 1.6;'>
-        <strong style='color: #1F2937;'>Billboard Top Songs</strong><br>
-        Dados da Billboard<br>
-        Links do Spotify
-    </p>
-    <div style='text-align: center; margin-top: 15px;'>
-        <div style='width: 40px; height: 4px; background: linear-gradient(90deg, #667eea, #764ba2); 
-                    margin: 0 auto; border-radius: 2px;'></div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.sidebar.markdown("<br>", unsafe_allow_html=True)
 
 # Botão para buscar
 if st.sidebar.button("Buscar Top Songs", type="primary"):
