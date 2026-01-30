@@ -269,6 +269,68 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         status_text.empty()
         progress_bar.empty()
         
+        # Calcular estatísticas
+        df = pd.DataFrame(songs_data)
+        total_songs = len(songs_data)
+        
+        # Artista mais frequente
+        artist_counts = df['Artista'].value_counts()
+        top_artist = artist_counts.index[0] if len(artist_counts) > 0 else "N/A"
+        top_artist_count = artist_counts.iloc[0] if len(artist_counts) > 0 else 0
+        
+        # Média de semanas no chart
+        weeks_list = [int(s['Semanas no Chart']) for s in songs_data if s['Semanas no Chart'] != 'N/A']
+        avg_weeks = sum(weeks_list) / len(weeks_list) if weeks_list else 0
+        
+        # Links do Spotify disponíveis
+        spotify_available = sum(1 for s in songs_data if s['Link Spotify'] != 'Não encontrado')
+        
+        # Exibir métricas
+        st.markdown("---")
+        st.markdown("### 📊 Estatísticas do Chart")
+        
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.markdown(f"""
+            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                        padding: 20px; border-radius: 15px; text-align: center;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                <h2 style='color: white; margin: 0;'>{total_songs}</h2>
+                <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Músicas</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown(f"""
+            <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                        padding: 20px; border-radius: 15px; text-align: center;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                <h2 style='color: white; margin: 0;'>{top_artist_count}</h2>
+                <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 0.85em;'>{top_artist}</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col3:
+            st.markdown(f"""
+            <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+                        padding: 20px; border-radius: 15px; text-align: center;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                <h2 style='color: white; margin: 0;'>{avg_weeks:.1f}</h2>
+                <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Média de Semanas</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col4:
+            st.markdown(f"""
+            <div style='background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
+                        padding: 20px; border-radius: 15px; text-align: center;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                <h2 style='color: white; margin: 0;'>{spotify_available}</h2>
+                <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Links Spotify</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
         # Exibir resultados
         st.markdown("---")
         st.subheader(f"🏆 Top {len(songs_data)} Músicas")
@@ -314,19 +376,100 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
 
 else:
     # Tela inicial
-    st.info(" Use o menu lateral para selecionar uma data e buscar o Top da Billboard!")
-    
     st.markdown("""
-    ### Como usar:
-    1. Selecione o **ano** e **mês** no menu lateral
-    2. Clique em **Buscar Top Songs**
-    3. Aguarde enquanto buscamos as músicas e os links do Spotify
-    4. Explore o Top 10 em destaque ou veja a lista completa
-    5. Clique em **Ouvir no Spotify** para abrir a música
+    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 30px; border-radius: 20px; text-align: center;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.2); margin: 20px 0;'>
+        <h2 style='color: white; margin: 0;'>👋 Bem-vindo!</h2>
+        <p style='color: rgba(255,255,255,0.9); font-size: 1.1em; margin: 10px 0 0 0;'>
+            Use o menu lateral para começar
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    ###  Nota:
-    Para usar os links do Spotify, você precisa configurar as credenciais da API do Spotify no arquivo `.env`
-    """)
+    # Cards de instruções
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                    padding: 25px; border-radius: 15px; height: 100%;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+            <h3 style='color: white; margin: 0 0 15px 0;'>🎵 Como usar</h3>
+            <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
+                <ol style='color: #1F2937; margin: 0; padding-left: 20px;'>
+                    <li style='margin: 10px 0;'>Selecione o <strong>ano</strong> e <strong>mês</strong> no menu lateral</li>
+                    <li style='margin: 10px 0;'>Clique em <strong>Buscar Top Songs</strong></li>
+                    <li style='margin: 10px 0;'>Aguarde o carregamento dos dados</li>
+                    <li style='margin: 10px 0;'>Explore o Top 10 em destaque</li>
+                    <li style='margin: 10px 0;'>Clique em <strong>Ouvir no Spotify</strong></li>
+                </ol>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+                    padding: 25px; border-radius: 15px; height: 100%;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+            <h3 style='color: white; margin: 0 0 15px 0;'>⚙️ Configuração</h3>
+            <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
+                <p style='color: #1F2937; margin: 0 0 10px 0;'>
+                    <strong>📝 Nota Importante:</strong>
+                </p>
+                <p style='color: #6B7280; margin: 0; line-height: 1.6;'>
+                    Para usar os links do Spotify, você precisa configurar as credenciais 
+                    da API do Spotify no arquivo <code>.env</code>
+                </p>
+                <p style='color: #6B7280; margin: 15px 0 0 0; line-height: 1.6;'>
+                    Veja o arquivo <code>SETUP.md</code> para instruções detalhadas.
+                </p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Recursos disponíveis
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
+                padding: 25px; border-radius: 15px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+        <h3 style='color: white; margin: 0 0 15px 0;'>✨ Recursos</h3>
+        <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
+            <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;'>
+                <div style='text-align: center; padding: 15px;'>
+                    <div style='font-size: 2em; margin-bottom: 10px;'>📊</div>
+                    <strong style='color: #1F2937;'>Estatísticas</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                        Métricas detalhadas do chart
+                    </p>
+                </div>
+                <div style='text-align: center; padding: 15px;'>
+                    <div style='font-size: 2em; margin-bottom: 10px;'>🎧</div>
+                    <strong style='color: #1F2937;'>Links Spotify</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                        Ouça as músicas diretamente
+                    </p>
+                </div>
+                <div style='text-align: center; padding: 15px;'>
+                    <div style='font-size: 2em; margin-bottom: 10px;'>💾</div>
+                    <strong style='color: #1F2937;'>Exportação</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                        Baixe em CSV ou JSON
+                    </p>
+                </div>
+                <div style='text-align: center; padding: 15px;'>
+                    <div style='font-size: 2em; margin-bottom: 10px;'>🏆</div>
+                    <strong style='color: #1F2937;'>Top 100</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                        Lista completa da Billboard
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Footer
 st.markdown("---")
