@@ -538,36 +538,42 @@ else:
         <h2 style='color: #1F2937; margin: 0 0 30px 0; font-size: 2em;'>
             Artistas Lendários que Dominaram as Paradas
         </h2>
-        <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+        <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
                     gap: 25px; margin-top: 30px;'>
-            <div style='background: white; padding: 25px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08);'>
-                <div style='font-size: 3em; margin-bottom: 10px;'>👑</div>
+            <div style='background: white; padding: 20px; border-radius: 12px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
+                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/The_Fabs.JPG/300px-The_Fabs.JPG' 
+                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
                 <strong style='color: #667eea; font-size: 1.1em;'>The Beatles</strong>
             </div>
-            <div style='background: white; padding: 25px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08);'>
-                <div style='font-size: 3em; margin-bottom: 10px;'>⭐</div>
+            <div style='background: white; padding: 20px; border-radius: 12px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
+                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Michael_Jackson_in_1988.jpg/300px-Michael_Jackson_in_1988.jpg' 
+                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
                 <strong style='color: #667eea; font-size: 1.1em;'>Michael Jackson</strong>
             </div>
-            <div style='background: white; padding: 25px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08);'>
-                <div style='font-size: 3em; margin-bottom: 10px;'>💎</div>
+            <div style='background: white; padding: 20px; border-radius: 12px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
+                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Madonna_Rebel_Heart_Tour_2015_-_Stockholm_%2823051472299%29_%28cropped%29.jpg/300px-Madonna_Rebel_Heart_Tour_2015_-_Stockholm_%2823051472299%29_%28cropped%29.jpg' 
+                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
                 <strong style='color: #667eea; font-size: 1.1em;'>Madonna</strong>
             </div>
-            <div style='background: white; padding: 25px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08);'>
-                <div style='font-size: 3em; margin-bottom: 10px;'>🎸</div>
+            <div style='background: white; padding: 20px; border-radius: 12px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
+                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elvis_Presley_promoting_Jailhouse_Rock.jpg/300px-Elvis_Presley_promoting_Jailhouse_Rock.jpg' 
+                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
                 <strong style='color: #667eea; font-size: 1.1em;'>Elvis Presley</strong>
             </div>
-            <div style='background: white; padding: 25px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08);'>
-                <div style='font-size: 3em; margin-bottom: 10px;'>🌟</div>
+            <div style='background: white; padding: 20px; border-radius: 12px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
+                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png/300px-191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png' 
+                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
                 <strong style='color: #667eea; font-size: 1.1em;'>Taylor Swift</strong>
             </div>
-            <div style='background: white; padding: 25px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08);'>
-                <div style='font-size: 3em; margin-bottom: 10px;'>🔥</div>
+            <div style='background: white; padding: 20px; border-radius: 12px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
+                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Drake_July_2016.jpg/300px-Drake_July_2016.jpg' 
+                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
                 <strong style='color: #667eea; font-size: 1.1em;'>Drake</strong>
             </div>
         </div>
