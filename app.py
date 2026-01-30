@@ -27,6 +27,20 @@ st.markdown("""
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        transition: transform 0.3s ease;
+        cursor: default;
+    }
+    
+    h1:hover {
+        transform: scale(1.02);
+    }
+    
+    /* Forçar texto branco no cabeçalho com gradiente */
+    div[style*='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)'] h1 {
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        -webkit-text-fill-color: white !important;
+        color: white !important;
     }
     
     /* Animação hover nos cards */
@@ -113,6 +127,56 @@ st.markdown("""
     /* Animação suave na sidebar */
     [data-testid="stSidebar"] * {
         transition: all 0.3s ease;
+    }
+    
+    /* Estilo das imagens dos artistas */
+    [data-testid="stImage"] img {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease;
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    [data-testid="stImage"]:hover img {
+        transform: scale(1.05);
+    }
+    /* Efeito hover na logo do cabeçalho */
+    .logo-header {
+        width: 150px;
+        height: auto;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        cursor: pointer;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    }
+    
+    .logo-header:hover {
+        transform: scale(1.3) rotate(360deg);
+        filter: drop-shadow(0 0 30px rgba(255,255,255,0.9)) 
+                drop-shadow(0 0 50px rgba(102,126,234,0.7)) 
+                brightness(1.3);
+    }
+    
+    /* Efeito hover na logo da sidebar */
+    .logo-sidebar {
+        width: 280px;
+        height: auto;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        cursor: pointer;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+    
+    .logo-sidebar:hover {
+        transform: scale(1.15) rotate(360deg);
+        filter: drop-shadow(0 0 30px rgba(255,255,255,0.9)) 
+                drop-shadow(0 0 50px rgba(102,126,234,0.7)) 
+                brightness(1.3);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -262,17 +326,123 @@ def create_song_card(song, show_spotify_button=True):
     return card_html
 
 # Interface principal
-st.title("Billboard Top Songs nos EUA")
-st.markdown("<p style='color: #6B7280; font-size: 1.2em; margin-top: -10px;'>Descubra as músicas mais ouvidas e ouça no Spotify</p>", unsafe_allow_html=True)
+# Carregar logo para o cabeçalho
+try:
+    from PIL import Image
+    import base64
+    from io import BytesIO
+    
+    logo_header = Image.open("assets/logo.jpg")
+    buffered_header = BytesIO()
+    logo_header.save(buffered_header, format="PNG", quality=100)
+    img_str_header = base64.b64encode(buffered_header.getvalue()).decode()
+    
+    st.markdown(f"""
+    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 30px 40px; border-radius: 15px; margin-bottom: 30px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);'>
+        <div style='display: flex; align-items: center; justify-content: center; gap: 30px;'>
+            <img src="data:image/png;base64,{img_str_header}" class="logo-header">
+            <div>
+                <div style='margin: 0; font-size: 2.8em; font-weight: 900; 
+                           letter-spacing: 2px;
+                           cursor: default;
+                           animation: glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+                           background: linear-gradient(90deg, 
+                                       rgba(255,255,255,0.8) 0%, 
+                                       rgba(255,255,255,1) 25%, 
+                                       rgba(255,255,255,0.8) 50%, 
+                                       rgba(255,255,255,1) 75%, 
+                                       rgba(255,255,255,0.8) 100%);
+                           background-size: 200% auto;
+                           -webkit-background-clip: text;
+                           -webkit-text-fill-color: transparent;
+                           background-clip: text;
+                           animation: shimmer 3s linear infinite, glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+                           filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+                           transition: transform 0.3s ease, letter-spacing 0.3s ease;'
+                     onmouseover="this.style.transform='scale(1.1)'; this.style.letterSpacing='8px'"
+                     onmouseout="this.style.transform='scale(1)'; this.style.letterSpacing='2px'">
+                    Billboard Explorer
+                </div>
+                <p style='color: rgba(255,255,255,0.95); font-size: 1.2em; margin: 8px 0 0 0;
+                          text-shadow: 0 1px 2px rgba(0,0,0,0.1);'>
+                    Descubra as músicas mais populares e ouça no Spotify
+                </p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+except:
+    st.markdown("""
+    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 30px 40px; border-radius: 15px; margin-bottom: 30px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);'>
+        <div style='display: flex; align-items: center; justify-content: center; gap: 20px;'>
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="white" opacity="0.95"/>
+            </svg>
+            <div>
+                <div style='margin: 0; font-size: 2.8em; font-weight: 900; 
+                           letter-spacing: 2px;
+                           cursor: default;
+                           animation: glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+                           background: linear-gradient(90deg, 
+                                       rgba(255,255,255,0.8) 0%, 
+                                       rgba(255,255,255,1) 25%, 
+                                       rgba(255,255,255,0.8) 50%, 
+                                       rgba(255,255,255,1) 75%, 
+                                       rgba(255,255,255,0.8) 100%);
+                           background-size: 200% auto;
+                           -webkit-background-clip: text;
+                           -webkit-text-fill-color: transparent;
+                           background-clip: text;
+                           animation: shimmer 3s linear infinite, glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+                           filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+                           transition: transform 0.3s ease, letter-spacing 0.3s ease;'
+                     onmouseover="this.style.transform='scale(1.1)'; this.style.letterSpacing='8px'"
+                     onmouseout="this.style.transform='scale(1)'; this.style.letterSpacing='2px'">
+                    Billboard Explorer
+                </div>
+                <p style='color: rgba(255,255,255,0.95); font-size: 1.2em; margin: 8px 0 0 0;
+                          text-shadow: 0 1px 2px rgba(0,0,0,0.1);'>
+                    Descubra as músicas mais populares e ouça no Spotify
+                </p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Sidebar para seleção de data
 st.sidebar.markdown("""
-<div style='text-align: center; padding: 15px 0;'>
-    <div style='font-size: 3em; margin-bottom: 10px;'>🎵</div>
-    <h2 style='margin: 0; color: white; font-size: 1.5em;'>Selecione a Data</h2>
-    <p style='color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 0.95em;'>
-        Escolha o mês e ano
-    </p>
+<div style='text-align: center; padding: 10px 0 5px 0;'>
+""", unsafe_allow_html=True)
+
+# Logo
+try:
+    from PIL import Image
+    logo = Image.open("assets/logo.jpg")
+    # Usar HTML para melhor controle de qualidade
+    import base64
+    from io import BytesIO
+    
+    buffered = BytesIO()
+    logo.save(buffered, format="PNG", quality=100)
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    
+    st.sidebar.markdown(f"""
+    <div style='text-align: center; margin-bottom: 15px;'>
+        <img src="data:image/png;base64,{img_str}" class="logo-sidebar">
+    </div>
+    """, unsafe_allow_html=True)
+except:
+    st.sidebar.markdown("""
+    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="white" opacity="0.95"/>
+    </svg>
+    """, unsafe_allow_html=True)
+
+st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
@@ -476,15 +646,36 @@ else:
         <div style='position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px;
                     background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(30px);'></div>
         <div style='position: relative; z-index: 2;'>
-            <div style='font-size: 4em; margin-bottom: 20px; animation: bounce 2s infinite;'>🎵</div>
-            <h1 style='color: white; margin: 0; font-size: 3.5em; font-weight: bold; 
-                       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-                       letter-spacing: 3px;'>
-                BILLBOARD TOP SONGS
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="white" opacity="0.9"/>
+            </svg>
+            <h1 style='color: white; 
+                       margin: 0; 
+                       font-size: 3.5em; 
+                       font-weight: 900; 
+                       letter-spacing: 2px;
+                       cursor: default;
+                       animation: glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+                       background: linear-gradient(90deg, 
+                                   rgba(255,255,255,0.8) 0%, 
+                                   rgba(255,255,255,1) 25%, 
+                                   rgba(255,255,255,0.8) 50%, 
+                                   rgba(255,255,255,1) 75%, 
+                                   rgba(255,255,255,0.8) 100%);
+                       background-size: 200% auto;
+                       -webkit-background-clip: text;
+                       -webkit-text-fill-color: transparent;
+                       background-clip: text;
+                       animation: shimmer 3s linear infinite, glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+                       filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+                       transition: transform 0.3s ease, letter-spacing 0.3s ease;'
+                 onmouseover="this.style.transform='scale(1.1)'; this.style.letterSpacing='8px'"
+                 onmouseout="this.style.transform='scale(1)'; this.style.letterSpacing='2px'">
+                Billboard Top Songs
             </h1>
             <p style='color: rgba(255,255,255,0.95); font-size: 1.3em; margin: 25px 0 35px 0; line-height: 1.6;
                       text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>
-                Explore as músicas mais ouvidas nos EUA desde 1958<br>
+                Explore o ranking Billboard nos EUA desde 1958<br>
                 Descubra os maiores hits de cada época
             </p>
             <div style='display: inline-block; background: rgba(255,255,255,0.25); 
@@ -494,7 +685,7 @@ else:
                  onmouseout="this.style.background='rgba(255,255,255,0.25)'; this.style.transform='scale(1)'">
                 <p style='color: white; margin: 0; font-size: 1.15em; font-weight: 600;
                           text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>
-                    ▶ Selecione uma data no menu lateral para começar
+                    ◀ Comece selecionando uma data
                 </p>
             </div>
         </div>
@@ -509,6 +700,40 @@ else:
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255,255,255,0.8),
+                             0 0 20px rgba(255,255,255,0.6),
+                             0 0 30px rgba(255,255,255,0.4),
+                             0 0 40px rgba(102,126,234,0.6),
+                             0 0 70px rgba(118,75,162,0.5),
+                             0 0 80px rgba(102,126,234,0.4);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255,255,255,1),
+                             0 0 30px rgba(255,255,255,0.8),
+                             0 0 40px rgba(255,255,255,0.6),
+                             0 0 50px rgba(102,126,234,0.8),
+                             0 0 80px rgba(118,75,162,0.7),
+                             0 0 100px rgba(102,126,234,0.6);
+            }
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
     </style>
     """, unsafe_allow_html=True)
     
@@ -520,10 +745,18 @@ else:
         <div style='background: white; padding: 40px 30px; border-radius: 15px; 
                     text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
                     border-top: 5px solid #667eea; height: 100%;'>
-            <div style='font-size: 4em; margin-bottom: 15px;'>📊</div>
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 15px;">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4-4h2v18h-2V3zm4 9h2v9h-2v-9zm4-3h2v12h-2V9z" fill="url(#grad1)"/>
+            </svg>
             <h3 style='color: #1F2937; margin: 0 0 10px 0;'>Top 100</h3>
             <p style='color: #6B7280; margin: 0; line-height: 1.6;'>
-                Rankings semanais das músicas mais tocadas nos EUA
+                Rankings semanais das músicas mais populares nos EUA
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -533,7 +766,15 @@ else:
         <div style='background: white; padding: 40px 30px; border-radius: 15px; 
                     text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
                     border-top: 5px solid #764ba2; height: 100%;'>
-            <div style='font-size: 4em; margin-bottom: 15px;'>🎵</div>
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 15px;">
+                <defs>
+                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="url(#grad2)"/>
+            </svg>
             <h3 style='color: #1F2937; margin: 0 0 10px 0;'>Desde 1958</h3>
             <p style='color: #6B7280; margin: 0; line-height: 1.6;'>
                 Mais de 60 anos de história musical documentada
@@ -546,7 +787,15 @@ else:
         <div style='background: white; padding: 40px 30px; border-radius: 15px; 
                     text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
                     border-top: 5px solid #667eea; height: 100%;'>
-            <div style='font-size: 4em; margin-bottom: 15px;'>🎧</div>
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 15px;">
+                <defs>
+                    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z" fill="url(#grad3)"/>
+            </svg>
             <h3 style='color: #1F2937; margin: 0 0 10px 0;'>Spotify</h3>
             <p style='color: #6B7280; margin: 0; line-height: 1.6;'>
                 Links diretos para ouvir suas músicas favoritas
@@ -557,84 +806,196 @@ else:
     # Seção de destaques com fotos
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("""
-    <div style='background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); 
-                padding: 50px 40px; border-radius: 20px; text-align: center;'>
-        <h2 style='color: #1F2937; margin: 0 0 30px 0; font-size: 2em;'>
+    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                padding: 50px 40px; border-radius: 20px; text-align: center;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.2); margin-bottom: 30px;'>
+        <h2 style='color: white; margin: 0; font-size: 2.2em; font-weight: bold;
+                   text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>
             Artistas Lendários que Dominaram as Paradas
         </h2>
-        <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-                    gap: 25px; margin-top: 30px;'>
-            <div style='background: white; padding: 15px; border-radius: 15px; 
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
-                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(102,126,234,0.3)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
-                <img src='assets/beatles.jpg' 
-                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
-                     onerror="this.src='https://via.placeholder.com/200x180/667eea/ffffff?text=Beatles'"/>
-                <strong style='color: #667eea; font-size: 1.2em; display: block; margin-bottom: 5px;'>The Beatles</strong>
-                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>20 músicas #1</p>
-            </div>
-            <div style='background: white; padding: 15px; border-radius: 15px; 
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
-                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(240,147,251,0.3)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
-                <img src='assets/michael-jackson.jpg' 
-                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
-                     onerror="this.src='https://via.placeholder.com/200x180/f093fb/ffffff?text=MJ'"/>
-                <strong style='color: #f093fb; font-size: 1.2em; display: block; margin-bottom: 5px;'>Michael Jackson</strong>
-                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>13 músicas #1</p>
-            </div>
-            <div style='background: white; padding: 15px; border-radius: 15px; 
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
-                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(79,172,254,0.3)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
-                <img src='assets/madonna.jpg' 
-                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
-                     onerror="this.src='https://via.placeholder.com/200x180/4facfe/ffffff?text=Madonna'"/>
-                <strong style='color: #4facfe; font-size: 1.2em; display: block; margin-bottom: 5px;'>Madonna</strong>
-                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>12 músicas #1</p>
-            </div>
-            <div style='background: white; padding: 15px; border-radius: 15px; 
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
-                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(250,112,154,0.3)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
-                <img src='assets/elvis.jpg' 
-                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
-                     onerror="this.src='https://via.placeholder.com/200x180/fa709a/ffffff?text=Elvis'"/>
-                <strong style='color: #fa709a; font-size: 1.2em; display: block; margin-bottom: 5px;'>Elvis Presley</strong>
-                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>18 músicas #1</p>
-            </div>
-            <div style='background: white; padding: 15px; border-radius: 15px; 
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
-                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(48,207,208,0.3)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
-                <img src='assets/taylor-swift.jpg' 
-                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
-                     onerror="this.src='https://via.placeholder.com/200x180/30cfd0/ffffff?text=Taylor'"/>
-                <strong style='color: #30cfd0; font-size: 1.2em; display: block; margin-bottom: 5px;'>Taylor Swift</strong>
-                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>9 músicas #1</p>
-            </div>
-            <div style='background: white; padding: 15px; border-radius: 15px; 
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
-                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(168,237,234,0.3)'"
-                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
-                <img src='assets/drake.jpg' 
-                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
-                     onerror="this.src='https://via.placeholder.com/200x180/a8edea/333333?text=Drake'"/>
-                <strong style='color: #a8edea; font-size: 1.2em; display: block; margin-bottom: 5px;'>Drake</strong>
-                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>11 músicas #1</p>
-            </div>
-        </div>
+        <p style='color: rgba(255,255,255,0.9); font-size: 1.1em; margin: 15px 0 0 0;'>
+            Conheça os maiores nomes da história da música
+        </p>
     </div>
     """, unsafe_allow_html=True)
+    
+    # Grid de artistas com st.columns
+    artists = [
+        {"name": "The Beatles", "image": "assets/beatles.jpg", "hits": "20 músicas #1", "color": "#667eea"},
+        {"name": "Michael Jackson", "image": "assets/michael-jackson.jpg", "hits": "13 músicas #1", "color": "#f093fb"},
+        {"name": "Madonna", "image": "assets/madonna.jpg", "hits": "12 músicas #1", "color": "#4facfe"},
+        {"name": "Elvis Presley", "image": "assets/elvis.jpg", "hits": "18 músicas #1", "color": "#fa709a"},
+        {"name": "Taylor Swift", "image": "assets/taylor-swift.jpg", "hits": "9 músicas #1", "color": "#30cfd0"},
+        {"name": "Drake", "image": "assets/drake.jpg", "hits": "11 músicas #1", "color": "#a8edea"}
+    ]
+    
+    # Primeira linha
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 4px; border-radius: 15px; margin-bottom: 25px;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);'>
+            <div style='background: white; padding: 15px; border-radius: 12px;'>
+        """, unsafe_allow_html=True)
+        st.image(artists[0]["image"], use_container_width=True)
+        st.markdown(f"""
+                <div style='text-align: center; margin-top: 15px;'>
+                    <strong style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   background-clip: text;
+                                   font-size: 1.3em;'>{artists[0]["name"]}</strong><br>
+                    <span style='color: #6B7280; font-size: 0.95em; font-weight: 500;'>{artists[0]["hits"]}</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 4px; border-radius: 15px; margin-bottom: 25px;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);'>
+            <div style='background: white; padding: 15px; border-radius: 12px;'>
+        """, unsafe_allow_html=True)
+        st.image(artists[1]["image"], use_container_width=True)
+        st.markdown(f"""
+                <div style='text-align: center; margin-top: 15px;'>
+                    <strong style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   background-clip: text;
+                                   font-size: 1.3em;'>{artists[1]["name"]}</strong><br>
+                    <span style='color: #6B7280; font-size: 0.95em; font-weight: 500;'>{artists[1]["hits"]}</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 4px; border-radius: 15px; margin-bottom: 25px;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);'>
+            <div style='background: white; padding: 15px; border-radius: 12px;'>
+        """, unsafe_allow_html=True)
+        st.image(artists[2]["image"], use_container_width=True)
+        st.markdown(f"""
+                <div style='text-align: center; margin-top: 15px;'>
+                    <strong style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   background-clip: text;
+                                   font-size: 1.3em;'>{artists[2]["name"]}</strong><br>
+                    <span style='color: #6B7280; font-size: 0.95em; font-weight: 500;'>{artists[2]["hits"]}</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Segunda linha
+    col4, col5, col6 = st.columns(3)
+    
+    with col4:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 4px; border-radius: 15px; margin-bottom: 25px;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);'>
+            <div style='background: white; padding: 15px; border-radius: 12px;'>
+        """, unsafe_allow_html=True)
+        st.image(artists[3]["image"], use_container_width=True)
+        st.markdown(f"""
+                <div style='text-align: center; margin-top: 15px;'>
+                    <strong style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   background-clip: text;
+                                   font-size: 1.3em;'>{artists[3]["name"]}</strong><br>
+                    <span style='color: #6B7280; font-size: 0.95em; font-weight: 500;'>{artists[3]["hits"]}</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col5:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 4px; border-radius: 15px; margin-bottom: 25px;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);'>
+            <div style='background: white; padding: 15px; border-radius: 12px;'>
+        """, unsafe_allow_html=True)
+        st.image(artists[4]["image"], use_container_width=True)
+        st.markdown(f"""
+                <div style='text-align: center; margin-top: 15px;'>
+                    <strong style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   background-clip: text;
+                                   font-size: 1.3em;'>{artists[4]["name"]}</strong><br>
+                    <span style='color: #6B7280; font-size: 0.95em; font-weight: 500;'>{artists[4]["hits"]}</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col6:
+        st.markdown("""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 4px; border-radius: 15px; margin-bottom: 25px;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);'>
+            <div style='background: white; padding: 15px; border-radius: 12px;'>
+        """, unsafe_allow_html=True)
+        st.image(artists[5]["image"], use_container_width=True)
+        st.markdown(f"""
+                <div style='text-align: center; margin-top: 15px;'>
+                    <strong style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   background-clip: text;
+                                   font-size: 1.3em;'>{artists[5]["name"]}</strong><br>
+                    <span style='color: #6B7280; font-size: 0.95em; font-weight: 500;'>{artists[5]["hits"]}</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # Footer
-st.markdown("---")
-st.markdown(
-    """
-    <div style='text-align: center'>
-        <p>Desenvolvido por Lázaro Xavier usando Streamlit | Dados: Billboard & Spotify</p>
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("""
+<div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            padding: 40px; border-radius: 15px; margin-top: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);'>
+    <div style='display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center;'>
+        <div>
+            <h3 style='color: white; margin: 0 0 10px 0; font-size: 1.1em;'>Desenvolvedor</h3>
+            <p style='color: rgba(255,255,255,0.9); margin: 0; font-size: 0.95em;'>
+                Lázaro Xavier
+            </p>
+            <a href='https://github.com/Lazarorx' target='_blank' style='color: white; text-decoration: none; font-size: 0.9em; opacity: 0.8;'>
+                @lazarorx
+            </a>
+        </div>
+        <div>
+            <h3 style='color: white; margin: 0 0 10px 0; font-size: 1.1em;'>Tecnologias</h3>
+            <p style='color: rgba(255,255,255,0.9); margin: 0; font-size: 0.95em;'>
+                Python • Streamlit<br>
+                Billboard API • Spotify API
+            </p>
+        </div>
+        <div>
+            <h3 style='color: white; margin: 0 0 10px 0; font-size: 1.1em;'>Fontes de Dados</h3>
+            <p style='color: rgba(255,255,255,0.9); margin: 0; font-size: 0.95em;'>
+                Billboard Hot 100<br>
+                Spotify Web API
+            </p>
+        </div>
     </div>
-    """,
-    unsafe_allow_html=True
-)
+    <div style='text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);'>
+        <p style='color: rgba(255,255,255,0.8); margin: 0; font-size: 0.9em;'>
+            © 2026 Billboard Explorer • Todos os direitos reservados
+        </p>
+    </div>
+</div>
+""", unsafe_allow_html=True)
