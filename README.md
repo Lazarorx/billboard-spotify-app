@@ -1,20 +1,20 @@
-# 🎵 Billboard Top Songs com Spotify
+# Billboard Top Songs com Spotify
 
 Aplicação web que mostra as músicas mais ouvidas nos EUA (Top da Billboard) em uma época específica, com links diretos para ouvir no Spotify.
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - Consulta o Top 100 da Billboard por mês/ano
 - Exibe informações detalhadas de cada música
 - Links diretos para ouvir no Spotify
 - Interface intuitiva com Streamlit
 
-## 📋 Pré-requisitos
+## Pré-requisitos
 
 - Python 3.8+
 - Conta no Spotify Developer (para API credentials)
 
-## 🔧 Instalação
+## Instalação
 
 1. Clone o repositório:
 ```bash
@@ -40,7 +40,7 @@ pip install -r requirements.txt
    - Crie um arquivo `.env` baseado no `.env.example`
    - Cole suas credenciais no arquivo `.env`
 
-## ▶️ Como usar
+## Como usar
 
 Execute a aplicação:
 ```bash
@@ -49,17 +49,17 @@ streamlit run app.py
 
 A aplicação abrirá no navegador em `http://localhost:8501`
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 - **Streamlit**: Interface web
 - **billboard.py**: API da Billboard
 - **Spotipy**: API do Spotify
 - **Pandas**: Manipulação de dados
 
-## 👤 Autor
+## Autor
 
-**lazarorx**
+**Lázaro Xavier** (lazarorx)
 
-## 📝 Licença
+## Licença
 
 MIT License
