@@ -207,7 +207,7 @@ def create_song_card(song, show_spotify_button=True):
 
 # Interface principal
 st.title("Billboard Top Songs nos EUA")
-st.markdown("### Descubra as músicas mais ouvidas e ouça no Spotify")
+st.markdown("<p style='color: #6B7280; font-size: 1.2em; margin-top: -10px;'>Descubra as músicas mais ouvidas e ouça no Spotify</p>", unsafe_allow_html=True)
 
 # Sidebar para seleção de data
 st.sidebar.header("Selecione a Data")
@@ -392,17 +392,17 @@ else:
     # Tela inicial
     st.markdown("""
     <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                padding: 30px; border-radius: 20px; text-align: center;
-                box-shadow: 0 8px 16px rgba(0,0,0,0.2); margin: 20px 0;'>
-        <h2 style='color: white; margin: 0;'>Bem-vindo</h2>
-        <p style='color: rgba(255,255,255,0.9); font-size: 1.1em; margin: 10px 0 0 0;'>
+                padding: 40px; border-radius: 20px; text-align: center;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.2); margin: 30px 0 40px 0;'>
+        <h2 style='color: white; margin: 0; font-size: 2em;'>Bem-vindo</h2>
+        <p style='color: rgba(255,255,255,0.9); font-size: 1.2em; margin: 15px 0 0 0;'>
             Use o menu lateral para começar
         </p>
     </div>
     """, unsafe_allow_html=True)
     
     # Cards de instruções
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2, gap="large")
     
     with col1:
         st.markdown("""
@@ -444,35 +444,35 @@ else:
         """, unsafe_allow_html=True)
     
     # Recursos disponíveis
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("""
     <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                padding: 25px; border-radius: 15px;
+                padding: 30px; border-radius: 15px;
                 box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.7;'>
-        <h3 style='color: white; margin: 0 0 15px 0;'>Recursos</h3>
-        <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
-            <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;'>
-                <div style='text-align: center; padding: 15px;'>
-                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Estatísticas</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
+        <h3 style='color: white; margin: 0 0 20px 0; text-align: center;'>Recursos Disponíveis</h3>
+        <div style='background: rgba(255,255,255,0.95); padding: 25px; border-radius: 10px;'>
+            <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;'>
+                <div style='text-align: center; padding: 20px; background: #F9FAFB; border-radius: 10px;'>
+                    <strong style='color: #667eea; display: block; margin-bottom: 8px; font-size: 1.1em;'>Estatísticas</strong>
+                    <p style='color: #6B7280; font-size: 0.95em; margin: 0; line-height: 1.5;'>
                         Métricas detalhadas do chart
                     </p>
                 </div>
-                <div style='text-align: center; padding: 15px;'>
-                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Links Spotify</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
+                <div style='text-align: center; padding: 20px; background: #F9FAFB; border-radius: 10px;'>
+                    <strong style='color: #667eea; display: block; margin-bottom: 8px; font-size: 1.1em;'>Links Spotify</strong>
+                    <p style='color: #6B7280; font-size: 0.95em; margin: 0; line-height: 1.5;'>
                         Ouça as músicas diretamente
                     </p>
                 </div>
-                <div style='text-align: center; padding: 15px;'>
-                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Exportação</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
+                <div style='text-align: center; padding: 20px; background: #F9FAFB; border-radius: 10px;'>
+                    <strong style='color: #667eea; display: block; margin-bottom: 8px; font-size: 1.1em;'>Exportação</strong>
+                    <p style='color: #6B7280; font-size: 0.95em; margin: 0; line-height: 1.5;'>
                         Baixe em CSV ou JSON
                     </p>
                 </div>
-                <div style='text-align: center; padding: 15px;'>
-                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Top 100</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
+                <div style='text-align: center; padding: 20px; background: #F9FAFB; border-radius: 10px;'>
+                    <strong style='color: #667eea; display: block; margin-bottom: 8px; font-size: 1.1em;'>Top 100</strong>
+                    <p style='color: #6B7280; font-size: 0.95em; margin: 0; line-height: 1.5;'>
                         Lista completa da Billboard
                     </p>
                 </div>
