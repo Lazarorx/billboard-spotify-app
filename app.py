@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 import pandas as pd
 from datetime import datetime
+import json
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -156,10 +157,38 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         with st.expander("📊 Ver Top 100 Completo"):
             df = pd.DataFrame(songs_data)
             st.dataframe(df, use_container_width=True, hide_index=True)
+        
+        # Opções de exportação
+        st.markdown("---")
+        st.subheader("💾 Exportar Dados")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Exportar CSV
+            csv = df.to_csv(index=False, encoding='utf-8-sig')
+            st.download_button(
+                label="📥 Baixar CSV",
+                data=csv,
+                file_name=f"billboard_top100_{year}_{month:02d}.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
+        
+        with col2:
+            # Exportar JSON
+            json_data = json.dumps(songs_data, ensure_ascii=False, indent=2)
+            st.download_button(
+                label="📥 Baixar JSON",
+                data=json_data,
+                file_name=f"billboard_top100_{year}_{month:02d}.json",
+                mime="application/json",
+                use_container_width=True
+            )
 
 else:
     # Tela inicial
-    st.info("👈 Use o menu lateral para selecionar uma data e buscar o Top da Billboard!")
+    st.info(" Use o menu lateral para selecionar uma data e buscar o Top da Billboard!")
     
     st.markdown("""
     ### Como usar:
@@ -169,7 +198,7 @@ else:
     4. Explore o Top 10 em destaque ou veja a lista completa
     5. Clique em **Ouvir no Spotify** para abrir a música
     
-    ### 📝 Nota:
+    ###  Nota:
     Para usar os links do Spotify, você precisa configurar as credenciais da API do Spotify no arquivo `.env`
     """)
 
