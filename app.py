@@ -207,7 +207,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center'>
-        <p>Desenvolvido com ❤️ usando Streamlit | Dados: Billboard & Spotify</p>
+        <p>Desenvolvido por Lázaro Xavier usando Streamlit | Dados: Billboard & Spotify</p>
     </div>
     """,
     unsafe_allow_html=True
