@@ -70,8 +70,6 @@ def init_spotify():
         client_secret = os.getenv('SPOTIPY_CLIENT_SECRET')
         
         if not client_id or not client_secret:
-            st.error("⚠️ Credenciais do Spotify não configuradas!")
-            st.info("Configure o arquivo .env com suas credenciais do Spotify Developer")
             return None
             
         client_credentials_manager = SpotifyClientCredentials(
@@ -80,7 +78,6 @@ def init_spotify():
         )
         return spotipy.Spotify(client_credentials_manager=client_credentials_manager)
     except Exception as e:
-        st.error(f"Erro ao conectar com Spotify: {str(e)}")
         return None
 
 def search_spotify_track(sp, song_name, artist_name):
@@ -269,10 +266,11 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         status_text.empty()
         progress_bar.empty()
         
-        # Buscar links do Spotify apenas para o Top 10
+        # Buscar links do Spotify apenas para o Top 10 (se configurado)
         if sp:
-            st.info("Buscando links do Spotify para o Top 10...")
             progress_bar_spotify = st.progress(0)
+            status_spotify = st.empty()
+            status_spotify.text("Buscando links do Spotify para o Top 10...")
             
             for idx in range(min(10, len(songs_data))):
                 song = songs_data[idx]
@@ -282,6 +280,7 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
                 progress_bar_spotify.progress((idx + 1) / 10)
             
             progress_bar_spotify.empty()
+            status_spotify.empty()
         
         # Calcular estatísticas
         df = pd.DataFrame(songs_data)
@@ -354,7 +353,7 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         
         for song in songs_data[:10]:
             card_html = create_song_card(song)
-            st.markdown(card_html, unsafe_allow_html=True)
+            st.html(card_html)
         
         # Tabela completa expansível
         with st.expander("Ver Top 100 Completo"):
