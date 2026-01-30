@@ -204,19 +204,15 @@ def init_spotify():
 
 def search_spotify_track(sp, song_name, artist_name):
     """Busca uma música no Spotify e retorna o link"""
-    if not sp:
-        return None
+    # Criar link de busca direto do Spotify (não depende de API)
+    # Formato: https://open.spotify.com/search/artista%20musica
+    import urllib.parse
     
-    try:
-        query = f"track:{song_name} artist:{artist_name}"
-        results = sp.search(q=query, type='track', limit=1)
-        
-        if results['tracks']['items']:
-            track = results['tracks']['items'][0]
-            return track['external_urls']['spotify']
-        return None
-    except Exception as e:
-        return None
+    query = f"{artist_name} {song_name}"
+    encoded_query = urllib.parse.quote(query)
+    search_link = f"https://open.spotify.com/search/{encoded_query}"
+    
+    return search_link
 
 def get_billboard_chart(date_str):
     """Obtém o chart da Billboard para uma data específica"""
@@ -291,18 +287,12 @@ def create_song_card(song, show_spotify_button=True):
                         border-radius: 25px; text-align: center; font-weight: bold;
                         margin-top: 15px; cursor: pointer; transition: all 0.3s;
                         box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);'>
-                Ouvir no Spotify
+                Buscar no Spotify
             </div>
         </a>
         """
     elif show_spotify_button:
-        spotify_button = """
-        <div style='background: #6B7280; color: white; padding: 10px 20px; 
-                    border-radius: 25px; text-align: center; font-weight: bold;
-                    margin-top: 15px; opacity: 0.6;'>
-            Link não disponível
-        </div>
-        """
+        spotify_button = ""
     
     # Obter badge da posição
     badge_html = get_position_badge(position)
@@ -503,21 +493,11 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         status_text.empty()
         progress_bar.empty()
         
-        # Buscar links do Spotify apenas para o Top 10 (se configurado)
-        if sp:
-            progress_bar_spotify = st.progress(0)
-            status_spotify = st.empty()
-            status_spotify.text("🔗 Cruzando links com Spotify...")
-            
-            for idx in range(min(10, len(songs_data))):
-                song = songs_data[idx]
-                spotify_link = search_spotify_track(sp, song['Música'], song['Artista'])
-                if spotify_link:
-                    songs_data[idx]['Link Spotify'] = spotify_link
-                progress_bar_spotify.progress((idx + 1) / 10)
-            
-            progress_bar_spotify.empty()
-            status_spotify.empty()
+        # Adicionar links de busca do Spotify para todas as músicas
+        for idx in range(len(songs_data)):
+            song = songs_data[idx]
+            spotify_link = search_spotify_track(None, song['Música'], song['Artista'])
+            songs_data[idx]['Link Spotify'] = spotify_link
         
         # Header com informações do chart
         month_name = datetime(year, month, 1).strftime('%B')
@@ -545,8 +525,8 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         weeks_list = [int(s['Semanas no Chart']) for s in songs_data if s['Semanas no Chart'] != 'N/A']
         avg_weeks = sum(weeks_list) / len(weeks_list) if weeks_list else 0
         
-        # Links do Spotify disponíveis
-        spotify_available = sum(1 for s in songs_data if s['Link Spotify'] != 'Não encontrado')
+        # Links do Spotify disponíveis (agora sempre 100%)
+        spotify_available = len(songs_data)
         
         # Exibir métricas
         st.markdown("### Estatísticas do Chart")
@@ -589,7 +569,7 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
                         padding: 20px; border-radius: 15px; text-align: center;
                         box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.7;'>
                 <h2 style='color: white; margin: 0;'>{spotify_available}</h2>
-                <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Links Spotify</p>
+                <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Links Disponíveis</p>
             </div>
             """, unsafe_allow_html=True)
         
