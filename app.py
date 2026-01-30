@@ -14,7 +14,7 @@ load_dotenv()
 # Configuração da página
 st.set_page_config(
     page_title="Billboard Top Songs",
-    page_icon="🎵",
+    page_icon="�",
     layout="wide"
 )
 
@@ -111,35 +111,35 @@ def get_billboard_chart(date_str):
 def get_position_badge(position):
     """Retorna um badge HTML colorido baseado na posição"""
     if position == 1:
-        return """
-        <div style='display: inline-block; background: linear-gradient(135deg, #FFD700, #FFA500); 
+        return f"""
+        <div style='display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); 
                     padding: 8px 16px; border-radius: 20px; font-weight: bold; 
-                    color: white; box-shadow: 0 4px 6px rgba(255, 215, 0, 0.3);'>
-            🥇 #1
+                    color: white; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);'>
+            #{position}
         </div>
         """
     elif position == 2:
-        return """
-        <div style='display: inline-block; background: linear-gradient(135deg, #C0C0C0, #A8A8A8); 
+        return f"""
+        <div style='display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); 
                     padding: 8px 16px; border-radius: 20px; font-weight: bold; 
-                    color: white; box-shadow: 0 4px 6px rgba(192, 192, 192, 0.3);'>
-            🥈 #2
+                    color: white; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3); opacity: 0.9;'>
+            #{position}
         </div>
         """
     elif position == 3:
-        return """
-        <div style='display: inline-block; background: linear-gradient(135deg, #CD7F32, #B8860B); 
+        return f"""
+        <div style='display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); 
                     padding: 8px 16px; border-radius: 20px; font-weight: bold; 
-                    color: white; box-shadow: 0 4px 6px rgba(205, 127, 50, 0.3);'>
-            🥉 #3
+                    color: white; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3); opacity: 0.8;'>
+            #{position}
         </div>
         """
     elif position <= 10:
         return f"""
         <div style='display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); 
                     padding: 8px 16px; border-radius: 20px; font-weight: bold; 
-                    color: white; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);'>
-            ⭐ #{position}
+                    color: white; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3); opacity: 0.7;'>
+            #{position}
         </div>
         """
     else:
@@ -155,25 +155,18 @@ def create_song_card(song, show_spotify_button=True):
     """Cria um card visual para uma música"""
     position = song['Posição']
     
-    # Definir gradiente baseado na posição
-    if position == 1:
-        gradient = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-    elif position <= 3:
-        gradient = "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
-    elif position <= 10:
-        gradient = "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-    else:
-        gradient = "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
+    # Gradiente padrão roxo/azul para todos
+    gradient = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     
     spotify_button = ""
     if show_spotify_button and song['Link Spotify'] != 'Não encontrado':
         spotify_button = f"""
         <a href="{song['Link Spotify']}" target="_blank" style="text-decoration: none;">
-            <div style='background: #1DB954; color: white; padding: 10px 20px; 
+            <div style='background: #667eea; color: white; padding: 10px 20px; 
                         border-radius: 25px; text-align: center; font-weight: bold;
                         margin-top: 15px; cursor: pointer; transition: all 0.3s;
-                        box-shadow: 0 4px 6px rgba(29, 185, 84, 0.3);'>
-                🎧 Ouvir no Spotify
+                        box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);'>
+                Ouvir no Spotify
             </div>
         </a>
         """
@@ -194,10 +187,10 @@ def create_song_card(song, show_spotify_button=True):
             {get_position_badge(position)}
             <h3 style='margin: 15px 0 5px 0; color: #1F2937;'>{song['Música']}</h3>
             <p style='color: #6B7280; font-size: 1.1em; margin: 5px 0;'>
-                <strong>🎤 {song['Artista']}</strong>
+                <strong>{song['Artista']}</strong>
             </p>
             <p style='color: #9CA3AF; font-size: 0.9em; margin: 10px 0 0 0;'>
-                📊 {song['Semanas no Chart']} semanas no chart
+                {song['Semanas no Chart']} semanas no chart
             </p>
             {spotify_button}
         </div>
@@ -207,11 +200,11 @@ def create_song_card(song, show_spotify_button=True):
     return card_html
 
 # Interface principal
-st.title("🎵 Billboard Top Songs nos EUA")
-st.markdown("### Descubra as músicas mais ouvidas e ouça no Spotify!")
+st.title("Billboard Top Songs nos EUA")
+st.markdown("### Descubra as músicas mais ouvidas e ouça no Spotify")
 
 # Sidebar para seleção de data
-st.sidebar.header("📅 Selecione a Data")
+st.sidebar.header("Selecione a Data")
 st.sidebar.markdown("Escolha o mês e ano para ver o Top da Billboard")
 
 # Seleção de ano e mês
@@ -229,7 +222,7 @@ month = st.sidebar.selectbox(
 )
 
 # Botão para buscar
-if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
+if st.sidebar.button("Buscar Top Songs", type="primary"):
     # Formatar data
     date_str = f"{year}-{month:02d}-01"
     
@@ -241,7 +234,7 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         chart = get_billboard_chart(date_str)
     
     if chart:
-        st.success(f"✅ Top 100 da Billboard - {chart.date}")
+        st.success(f"Top 100 da Billboard - {chart.date}")
         
         # Criar lista de músicas
         songs_data = []
@@ -287,7 +280,7 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         
         # Exibir métricas
         st.markdown("---")
-        st.markdown("### 📊 Estatísticas do Chart")
+        st.markdown("### Estatísticas do Chart")
         
         col1, col2, col3, col4 = st.columns(4)
         
@@ -303,9 +296,9 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         
         with col2:
             st.markdown(f"""
-            <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                         padding: 20px; border-radius: 15px; text-align: center;
-                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.9;'>
                 <h2 style='color: white; margin: 0;'>{top_artist_count}</h2>
                 <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 0.85em;'>{top_artist}</p>
             </div>
@@ -313,9 +306,9 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         
         with col3:
             st.markdown(f"""
-            <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                         padding: 20px; border-radius: 15px; text-align: center;
-                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.8;'>
                 <h2 style='color: white; margin: 0;'>{avg_weeks:.1f}</h2>
                 <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Média de Semanas</p>
             </div>
@@ -323,9 +316,9 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         
         with col4:
             st.markdown(f"""
-            <div style='background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
+            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                         padding: 20px; border-radius: 15px; text-align: center;
-                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.7;'>
                 <h2 style='color: white; margin: 0;'>{spotify_available}</h2>
                 <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Links Spotify</p>
             </div>
@@ -333,22 +326,22 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
         
         # Exibir resultados
         st.markdown("---")
-        st.subheader(f"🏆 Top {len(songs_data)} Músicas")
+        st.subheader(f"Top {len(songs_data)} Músicas")
         
         # Mostrar top 10 em destaque com cards
-        st.markdown("### 🌟 Top 10")
+        st.markdown("### Top 10")
         
         for song in songs_data[:10]:
             st.markdown(create_song_card(song), unsafe_allow_html=True)
         
         # Tabela completa expansível
-        with st.expander("📊 Ver Top 100 Completo"):
+        with st.expander("Ver Top 100 Completo"):
             df = pd.DataFrame(songs_data)
             st.dataframe(df, use_container_width=True, hide_index=True)
         
         # Opções de exportação
         st.markdown("---")
-        st.subheader("💾 Exportar Dados")
+        st.subheader("Exportar Dados")
         
         col1, col2 = st.columns(2)
         
@@ -356,7 +349,7 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
             # Exportar CSV
             csv = df.to_csv(index=False, encoding='utf-8-sig')
             st.download_button(
-                label="📥 Baixar CSV",
+                label="Baixar CSV",
                 data=csv,
                 file_name=f"billboard_top100_{year}_{month:02d}.csv",
                 mime="text/csv",
@@ -367,7 +360,7 @@ if st.sidebar.button("🔍 Buscar Top Songs", type="primary"):
             # Exportar JSON
             json_data = json.dumps(songs_data, ensure_ascii=False, indent=2)
             st.download_button(
-                label="📥 Baixar JSON",
+                label="Baixar JSON",
                 data=json_data,
                 file_name=f"billboard_top100_{year}_{month:02d}.json",
                 mime="application/json",
@@ -380,7 +373,7 @@ else:
     <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                 padding: 30px; border-radius: 20px; text-align: center;
                 box-shadow: 0 8px 16px rgba(0,0,0,0.2); margin: 20px 0;'>
-        <h2 style='color: white; margin: 0;'>👋 Bem-vindo!</h2>
+        <h2 style='color: white; margin: 0;'>Bem-vindo</h2>
         <p style='color: rgba(255,255,255,0.9); font-size: 1.1em; margin: 10px 0 0 0;'>
             Use o menu lateral para começar
         </p>
@@ -392,10 +385,10 @@ else:
     
     with col1:
         st.markdown("""
-        <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 25px; border-radius: 15px; height: 100%;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
-            <h3 style='color: white; margin: 0 0 15px 0;'>🎵 Como usar</h3>
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.9;'>
+            <h3 style='color: white; margin: 0 0 15px 0;'>Como usar</h3>
             <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
                 <ol style='color: #1F2937; margin: 0; padding-left: 20px;'>
                     <li style='margin: 10px 0;'>Selecione o <strong>ano</strong> e <strong>mês</strong> no menu lateral</li>
@@ -410,13 +403,13 @@ else:
     
     with col2:
         st.markdown("""
-        <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 25px; border-radius: 15px; height: 100%;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
-            <h3 style='color: white; margin: 0 0 15px 0;'>⚙️ Configuração</h3>
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.8;'>
+            <h3 style='color: white; margin: 0 0 15px 0;'>Configuração</h3>
             <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
                 <p style='color: #1F2937; margin: 0 0 10px 0;'>
-                    <strong>📝 Nota Importante:</strong>
+                    <strong>Nota Importante:</strong>
                 </p>
                 <p style='color: #6B7280; margin: 0; line-height: 1.6;'>
                     Para usar os links do Spotify, você precisa configurar as credenciais 
@@ -432,37 +425,33 @@ else:
     # Recursos disponíveis
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("""
-    <div style='background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
+    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                 padding: 25px; border-radius: 15px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
-        <h3 style='color: white; margin: 0 0 15px 0;'>✨ Recursos</h3>
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1); opacity: 0.7;'>
+        <h3 style='color: white; margin: 0 0 15px 0;'>Recursos</h3>
         <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
             <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;'>
                 <div style='text-align: center; padding: 15px;'>
-                    <div style='font-size: 2em; margin-bottom: 10px;'>📊</div>
-                    <strong style='color: #1F2937;'>Estatísticas</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Estatísticas</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
                         Métricas detalhadas do chart
                     </p>
                 </div>
                 <div style='text-align: center; padding: 15px;'>
-                    <div style='font-size: 2em; margin-bottom: 10px;'>🎧</div>
-                    <strong style='color: #1F2937;'>Links Spotify</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Links Spotify</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
                         Ouça as músicas diretamente
                     </p>
                 </div>
                 <div style='text-align: center; padding: 15px;'>
-                    <div style='font-size: 2em; margin-bottom: 10px;'>💾</div>
-                    <strong style='color: #1F2937;'>Exportação</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Exportação</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
                         Baixe em CSV ou JSON
                     </p>
                 </div>
                 <div style='text-align: center; padding: 15px;'>
-                    <div style='font-size: 2em; margin-bottom: 10px;'>🏆</div>
-                    <strong style='color: #1F2937;'>Top 100</strong>
-                    <p style='color: #6B7280; font-size: 0.9em; margin: 5px 0 0 0;'>
+                    <strong style='color: #1F2937; display: block; margin-bottom: 5px;'>Top 100</strong>
+                    <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>
                         Lista completa da Billboard
                     </p>
                 </div>
