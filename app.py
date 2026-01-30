@@ -153,20 +153,19 @@ def get_position_badge(position):
 
 def create_song_card(song, show_spotify_button=True):
     """Cria um card visual para uma música"""
-    import html
     position = song['Posição']
     
-    # Escapar caracteres especiais
-    musica = html.escape(str(song['Música']))
-    artista = html.escape(str(song['Artista']))
-    semanas = html.escape(str(song['Semanas no Chart']))
+    # Limpar caracteres que podem quebrar HTML (sem escape completo)
+    musica = str(song['Música']).replace('"', '&quot;').replace("'", '&#39;')
+    artista = str(song['Artista']).replace('"', '&quot;').replace("'", '&#39;')
+    semanas = str(song['Semanas no Chart'])
     
     # Gradiente padrão roxo/azul para todos
     gradient = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     
     spotify_button = ""
     if show_spotify_button and song['Link Spotify'] != 'Não encontrado':
-        spotify_link = html.escape(str(song['Link Spotify']))
+        spotify_link = str(song['Link Spotify'])
         spotify_button = f"""
         <a href="{spotify_link}" target="_blank" style="text-decoration: none;">
             <div style='background: #667eea; color: white; padding: 10px 20px; 
@@ -186,12 +185,15 @@ def create_song_card(song, show_spotify_button=True):
         </div>
         """
     
+    # Obter badge da posição
+    badge_html = get_position_badge(position)
+    
     card_html = f"""
     <div style='background: {gradient}; padding: 25px; border-radius: 15px; 
                 margin: 15px 0; box-shadow: 0 8px 16px rgba(0,0,0,0.2);
                 transition: transform 0.3s;'>
         <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
-            {get_position_badge(position)}
+            {badge_html}
             <h3 style='margin: 15px 0 5px 0; color: #1F2937;'>{musica}</h3>
             <p style='color: #6B7280; font-size: 1.1em; margin: 5px 0;'>
                 <strong>{artista}</strong>
@@ -351,7 +353,8 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         st.markdown("### Top 10")
         
         for song in songs_data[:10]:
-            st.markdown(create_song_card(song), unsafe_allow_html=True)
+            card_html = create_song_card(song)
+            st.markdown(card_html, unsafe_allow_html=True)
         
         # Tabela completa expansível
         with st.expander("Ver Top 100 Completo"):
