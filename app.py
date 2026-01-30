@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 import pandas as pd
 from datetime import datetime
 import json
+import plotly.express as px
+import plotly.graph_objects as go
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -590,6 +592,111 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
                 <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0;'>Links Spotify</p>
             </div>
             """, unsafe_allow_html=True)
+        
+        # Gráfico de Top 10 Artistas
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("### Top 10 Artistas do Período")
+        
+        # Contar artistas
+        artist_counts = df['Artista'].value_counts().head(10)
+        
+        # Criar gráfico de barras com Plotly
+        fig = go.Figure(data=[
+            go.Bar(
+                x=artist_counts.values,
+                y=artist_counts.index,
+                orientation='h',
+                marker=dict(
+                    color=artist_counts.values,
+                    colorscale=[[0, '#764ba2'], [1, '#667eea']],
+                    line=dict(color='rgba(255,255,255,0.3)', width=1)
+                ),
+                text=artist_counts.values,
+                textposition='outside',
+                hovertemplate='<b>%{y}</b><br>%{x} músicas<extra></extra>'
+            )
+        ])
+        
+        fig.update_layout(
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(family='Arial', size=12, color='#1F2937'),
+            xaxis=dict(
+                title='Número de Músicas',
+                showgrid=True,
+                gridcolor='rgba(0,0,0,0.05)',
+                zeroline=False
+            ),
+            yaxis=dict(
+                title='',
+                showgrid=False,
+                autorange='reversed'
+            ),
+            margin=dict(l=20, r=20, t=20, b=40),
+            height=400,
+            hoverlabel=dict(
+                bgcolor='white',
+                font_size=13,
+                font_family='Arial'
+            )
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Expander com gráficos extras
+        with st.expander("📊 Ver Mais Estatísticas"):
+            col_a, col_b = st.columns(2)
+            
+            with col_a:
+                st.markdown("#### Distribuição por Semanas no Chart")
+                # Gráfico de pizza
+                weeks_ranges = pd.cut(
+                    [int(s['Semanas no Chart']) for s in songs_data if s['Semanas no Chart'] != 'N/A'],
+                    bins=[0, 5, 10, 20, 50, 100],
+                    labels=['1-5 semanas', '6-10 semanas', '11-20 semanas', '21-50 semanas', '50+ semanas']
+                )
+                weeks_dist = weeks_ranges.value_counts()
+                
+                fig_pie = go.Figure(data=[
+                    go.Pie(
+                        labels=weeks_dist.index,
+                        values=weeks_dist.values,
+                        hole=0.4,
+                        marker=dict(
+                            colors=['#667eea', '#764ba2', '#8e54e9', '#9d64e8', '#ac74e7']
+                        ),
+                        textinfo='label+percent',
+                        hovertemplate='<b>%{label}</b><br>%{value} músicas<extra></extra>'
+                    )
+                ])
+                
+                fig_pie.update_layout(
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family='Arial', size=11),
+                    margin=dict(l=20, r=20, t=20, b=20),
+                    height=300,
+                    showlegend=True
+                )
+                
+                st.plotly_chart(fig_pie, use_container_width=True)
+            
+            with col_b:
+                st.markdown("#### Top 5 Artistas - Detalhes")
+                top5_artists = artist_counts.head(5)
+                
+                for idx, (artist, count) in enumerate(top5_artists.items(), 1):
+                    percentage = (count / total_songs) * 100
+                    st.markdown(f"""
+                    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                padding: 15px; border-radius: 10px; margin-bottom: 10px;
+                                opacity: {1 - (idx * 0.1)};'>
+                        <div style='color: white;'>
+                            <strong style='font-size: 1.1em;'>#{idx} {artist}</strong><br>
+                            <span style='font-size: 0.9em;'>{count} músicas ({percentage:.1f}% do chart)</span>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
         
         # Exibir resultados
         st.markdown("---")
