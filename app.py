@@ -64,6 +64,7 @@ st.markdown("""
         padding: 20px;
         border-radius: 0 0 15px 15px;
         margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
     }
     
     [data-testid="stSidebar"] h1, 
@@ -76,6 +77,18 @@ st.markdown("""
     [data-testid="stSidebar"] .stSelectbox label {
         color: #1F2937 !important;
         font-weight: 600;
+        font-size: 1.05em;
+    }
+    
+    [data-testid="stSidebar"] .stSelectbox > div {
+        background: white;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+    
+    [data-testid="stSidebar"] .stSelectbox > div:hover {
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        transform: translateY(-1px);
     }
     
     /* Estilo do botão na sidebar */
@@ -95,6 +108,11 @@ st.markdown("""
     [data-testid="stSidebar"] .stButton > button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Animação suave na sidebar */
+    [data-testid="stSidebar"] * {
+        transition: all 0.3s ease;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -249,9 +267,10 @@ st.markdown("<p style='color: #6B7280; font-size: 1.2em; margin-top: -10px;'>Des
 
 # Sidebar para seleção de data
 st.sidebar.markdown("""
-<div style='text-align: center; padding: 10px 0;'>
-    <h2 style='margin: 0; color: white;'>Selecione a Data</h2>
-    <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 0.95em;'>
+<div style='text-align: center; padding: 15px 0;'>
+    <div style='font-size: 3em; margin-bottom: 10px;'>🎵</div>
+    <h2 style='margin: 0; color: white; font-size: 1.5em;'>Selecione a Data</h2>
+    <p style='color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 0.95em;'>
         Escolha o mês e ano
     </p>
 </div>
@@ -272,6 +291,27 @@ month = st.sidebar.selectbox(
     range(1, 13),
     format_func=lambda x: datetime(2000, x, 1).strftime('%B')
 )
+
+# Rodapé da sidebar
+st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
+st.sidebar.markdown("""
+<div style='background: white; padding: 20px; border-radius: 12px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 30px;'>
+    <div style='text-align: center; margin-bottom: 15px;'>
+        <div style='width: 40px; height: 4px; background: linear-gradient(90deg, #667eea, #764ba2); 
+                    margin: 0 auto; border-radius: 2px;'></div>
+    </div>
+    <p style='color: #6B7280; font-size: 0.85em; text-align: center; margin: 0; line-height: 1.6;'>
+        <strong style='color: #1F2937;'>Billboard Top Songs</strong><br>
+        Dados da Billboard<br>
+        Links do Spotify
+    </p>
+    <div style='text-align: center; margin-top: 15px;'>
+        <div style='width: 40px; height: 4px; background: linear-gradient(90deg, #667eea, #764ba2); 
+                    margin: 0 auto; border-radius: 2px;'></div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # Botão para buscar
 if st.sidebar.button("Buscar Top Songs", type="primary"):
