@@ -56,7 +56,45 @@ st.markdown("""
     
     /* Estilo da sidebar */
     [data-testid="stSidebar"] {
-        background-color: #f8f9fa;
+        background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    [data-testid="stSidebar"] > div:first-child {
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        border-radius: 0 0 15px 15px;
+        margin-bottom: 20px;
+    }
+    
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3 {
+        color: white !important;
+    }
+    
+    /* Estilo dos selectbox na sidebar */
+    [data-testid="stSidebar"] .stSelectbox label {
+        color: #1F2937 !important;
+        font-weight: 600;
+    }
+    
+    /* Estilo do botão na sidebar */
+    [data-testid="stSidebar"] .stButton > button {
+        width: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 25px;
+        font-weight: bold;
+        font-size: 1.05em;
+        transition: all 0.3s;
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    [data-testid="stSidebar"] .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -210,8 +248,16 @@ st.title("Billboard Top Songs nos EUA")
 st.markdown("<p style='color: #6B7280; font-size: 1.2em; margin-top: -10px;'>Descubra as músicas mais ouvidas e ouça no Spotify</p>", unsafe_allow_html=True)
 
 # Sidebar para seleção de data
-st.sidebar.header("Selecione a Data")
-st.sidebar.markdown("Escolha o mês e ano para ver o Top da Billboard")
+st.sidebar.markdown("""
+<div style='text-align: center; padding: 10px 0;'>
+    <h2 style='margin: 0; color: white;'>Selecione a Data</h2>
+    <p style='color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 0.95em;'>
+        Escolha o mês e ano
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+st.sidebar.markdown("<br>", unsafe_allow_html=True)
 
 # Seleção de ano e mês
 current_year = datetime.now().year
