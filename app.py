@@ -250,24 +250,36 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         progress_bar = st.progress(0)
         status_text = st.empty()
         
+        # Processar todas as músicas primeiro (sem Spotify)
         for idx, entry in enumerate(chart):
-            status_text.text(f"Processando música {idx + 1} de {len(chart)}...")
-            
-            # Buscar link do Spotify
-            spotify_link = search_spotify_track(sp, entry.title, entry.artist) if sp else None
+            status_text.text(f"Carregando música {idx + 1} de {len(chart)}...")
             
             songs_data.append({
                 'Posição': entry.rank,
                 'Música': entry.title,
                 'Artista': entry.artist,
                 'Semanas no Chart': entry.weeks if entry.weeks else 'N/A',
-                'Link Spotify': spotify_link if spotify_link else 'Não encontrado'
+                'Link Spotify': 'Não encontrado'
             })
             
             progress_bar.progress((idx + 1) / len(chart))
         
         status_text.empty()
         progress_bar.empty()
+        
+        # Buscar links do Spotify apenas para o Top 10
+        if sp:
+            st.info("Buscando links do Spotify para o Top 10...")
+            progress_bar_spotify = st.progress(0)
+            
+            for idx in range(min(10, len(songs_data))):
+                song = songs_data[idx]
+                spotify_link = search_spotify_track(sp, song['Música'], song['Artista'])
+                if spotify_link:
+                    songs_data[idx]['Link Spotify'] = spotify_link
+                progress_bar_spotify.progress((idx + 1) / 10)
+            
+            progress_bar_spotify.empty()
         
         # Calcular estatísticas
         df = pd.DataFrame(songs_data)
