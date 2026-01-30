@@ -153,15 +153,22 @@ def get_position_badge(position):
 
 def create_song_card(song, show_spotify_button=True):
     """Cria um card visual para uma música"""
+    import html
     position = song['Posição']
+    
+    # Escapar caracteres especiais
+    musica = html.escape(str(song['Música']))
+    artista = html.escape(str(song['Artista']))
+    semanas = html.escape(str(song['Semanas no Chart']))
     
     # Gradiente padrão roxo/azul para todos
     gradient = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     
     spotify_button = ""
     if show_spotify_button and song['Link Spotify'] != 'Não encontrado':
+        spotify_link = html.escape(str(song['Link Spotify']))
         spotify_button = f"""
-        <a href="{song['Link Spotify']}" target="_blank" style="text-decoration: none;">
+        <a href="{spotify_link}" target="_blank" style="text-decoration: none;">
             <div style='background: #667eea; color: white; padding: 10px 20px; 
                         border-radius: 25px; text-align: center; font-weight: bold;
                         margin-top: 15px; cursor: pointer; transition: all 0.3s;
@@ -185,12 +192,12 @@ def create_song_card(song, show_spotify_button=True):
                 transition: transform 0.3s;'>
         <div style='background: rgba(255,255,255,0.95); padding: 20px; border-radius: 10px;'>
             {get_position_badge(position)}
-            <h3 style='margin: 15px 0 5px 0; color: #1F2937;'>{song['Música']}</h3>
+            <h3 style='margin: 15px 0 5px 0; color: #1F2937;'>{musica}</h3>
             <p style='color: #6B7280; font-size: 1.1em; margin: 5px 0;'>
-                <strong>{song['Artista']}</strong>
+                <strong>{artista}</strong>
             </p>
             <p style='color: #9CA3AF; font-size: 0.9em; margin: 10px 0 0 0;'>
-                {song['Semanas no Chart']} semanas no chart
+                {semanas} semanas no chart
             </p>
             {spotify_button}
         </div>
