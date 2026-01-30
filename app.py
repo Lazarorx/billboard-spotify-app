@@ -56,11 +56,7 @@ st.markdown("""
     
     /* Estilo da sidebar */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    [data-testid="stSidebar"] * {
-        color: white !important;
+        background-color: #f8f9fa;
     }
 </style>
 """, unsafe_allow_html=True)
