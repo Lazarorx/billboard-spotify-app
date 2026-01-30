@@ -322,12 +322,10 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
     sp = init_spotify()
     
     # Buscar chart da Billboard
-    with st.spinner("Buscando dados da Billboard..."):
+    with st.spinner(f"🎵 Buscando ranking da Billboard para {datetime(year, month, 1).strftime('%B/%Y')}..."):
         chart = get_billboard_chart(date_str)
     
     if chart:
-        st.success(f"Top 100 da Billboard - {chart.date}")
-        
         # Criar lista de músicas
         songs_data = []
         
@@ -337,7 +335,7 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         
         # Processar todas as músicas primeiro (sem Spotify)
         for idx, entry in enumerate(chart):
-            status_text.text(f"Carregando música {idx + 1} de {len(chart)}...")
+            status_text.text(f"📊 Carregando música {idx + 1} de {len(chart)}...")
             
             songs_data.append({
                 'Posição': entry.rank,
@@ -356,7 +354,7 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         if sp:
             progress_bar_spotify = st.progress(0)
             status_spotify = st.empty()
-            status_spotify.text("Buscando links do Spotify para o Top 10...")
+            status_spotify.text("🔗 Cruzando links com Spotify...")
             
             for idx in range(min(10, len(songs_data))):
                 song = songs_data[idx]
@@ -367,6 +365,19 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
             
             progress_bar_spotify.empty()
             status_spotify.empty()
+        
+        # Header com informações do chart
+        month_name = datetime(year, month, 1).strftime('%B')
+        st.markdown(f"""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 30px; border-radius: 20px; text-align: center;
+                    box-shadow: 0 8px 16px rgba(0,0,0,0.2); margin: 20px 0 30px 0;'>
+            <h2 style='color: white; margin: 0; font-size: 2em;'>🎧 Top 10 – {month_name} {year}</h2>
+            <p style='color: rgba(255,255,255,0.9); font-size: 1.1em; margin: 10px 0 0 0;'>
+                Billboard Hot 100 Chart
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
         
         # Calcular estatísticas
         df = pd.DataFrame(songs_data)
@@ -385,7 +396,6 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         spotify_available = sum(1 for s in songs_data if s['Link Spotify'] != 'Não encontrado')
         
         # Exibir métricas
-        st.markdown("---")
         st.markdown("### Estatísticas do Chart")
         
         col1, col2, col3, col4 = st.columns(4)
@@ -432,10 +442,8 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
         
         # Exibir resultados
         st.markdown("---")
-        st.subheader(f"Top {len(songs_data)} Músicas")
         
         # Mostrar top 10 em destaque com cards
-        st.markdown("### Top 10")
         
         for song in songs_data[:10]:
             card_html = create_song_card(song)
