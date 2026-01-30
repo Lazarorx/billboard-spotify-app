@@ -464,28 +464,52 @@ if st.sidebar.button("Buscar Top Songs", type="primary"):
             )
 
 else:
-    # Tela inicial - Hero Section
+    # Tela inicial - Hero Section com efeitos
     st.markdown("""
     <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                 padding: 60px 40px; border-radius: 20px; text-align: center;
-                box-shadow: 0 8px 16px rgba(0,0,0,0.2); margin: 30px 0 40px 0;
-                position: relative; overflow: hidden;'>
+                box-shadow: 0 12px 24px rgba(0,0,0,0.3); margin: 30px 0 40px 0;
+                position: relative; overflow: hidden;
+                animation: fadeIn 0.8s ease-in;'>
+        <div style='position: absolute; top: -50px; right: -50px; width: 200px; height: 200px;
+                    background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(40px);'></div>
+        <div style='position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px;
+                    background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(30px);'></div>
         <div style='position: relative; z-index: 2;'>
-            <h1 style='color: white; margin: 0; font-size: 3em; font-weight: bold;'>
-                Billboard Top Songs
+            <div style='font-size: 4em; margin-bottom: 20px; animation: bounce 2s infinite;'>🎵</div>
+            <h1 style='color: white; margin: 0; font-size: 3.5em; font-weight: bold; 
+                       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                       letter-spacing: 3px;'>
+                BILLBOARD TOP SONGS
             </h1>
-            <p style='color: rgba(255,255,255,0.95); font-size: 1.3em; margin: 20px 0 30px 0; line-height: 1.6;'>
+            <p style='color: rgba(255,255,255,0.95); font-size: 1.3em; margin: 25px 0 35px 0; line-height: 1.6;
+                      text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>
                 Explore as músicas mais ouvidas nos EUA desde 1958<br>
                 Descubra os maiores hits de cada época
             </p>
-            <div style='display: inline-block; background: rgba(255,255,255,0.2); 
-                        padding: 15px 30px; border-radius: 50px; backdrop-filter: blur(10px);'>
-                <p style='color: white; margin: 0; font-size: 1.1em;'>
-                    👈 Selecione uma data no menu lateral para começar
+            <div style='display: inline-block; background: rgba(255,255,255,0.25); 
+                        padding: 18px 35px; border-radius: 50px; backdrop-filter: blur(10px);
+                        border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s;'
+                 onmouseover="this.style.background='rgba(255,255,255,0.35)'; this.style.transform='scale(1.05)'"
+                 onmouseout="this.style.background='rgba(255,255,255,0.25)'; this.style.transform='scale(1)'">
+                <p style='color: white; margin: 0; font-size: 1.15em; font-weight: 600;
+                          text-shadow: 0 2px 4px rgba(0,0,0,0.2);'>
+                    ▶ Selecione uma data no menu lateral para começar
                 </p>
             </div>
         </div>
     </div>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
     """, unsafe_allow_html=True)
     
     # Cards de estatísticas visuais
@@ -530,7 +554,7 @@ else:
         </div>
         """, unsafe_allow_html=True)
     
-    # Seção de destaques
+    # Seção de destaques com fotos
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("""
     <div style='background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); 
@@ -540,41 +564,65 @@ else:
         </h2>
         <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
                     gap: 25px; margin-top: 30px;'>
-            <div style='background: white; padding: 20px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/The_Fabs.JPG/300px-The_Fabs.JPG' 
-                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
-                <strong style='color: #667eea; font-size: 1.1em;'>The Beatles</strong>
+            <div style='background: white; padding: 15px; border-radius: 15px; 
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(102,126,234,0.3)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
+                <img src='assets/beatles.jpg' 
+                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
+                     onerror="this.src='https://via.placeholder.com/200x180/667eea/ffffff?text=Beatles'"/>
+                <strong style='color: #667eea; font-size: 1.2em; display: block; margin-bottom: 5px;'>The Beatles</strong>
+                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>20 músicas #1</p>
             </div>
-            <div style='background: white; padding: 20px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Michael_Jackson_in_1988.jpg/300px-Michael_Jackson_in_1988.jpg' 
-                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
-                <strong style='color: #667eea; font-size: 1.1em;'>Michael Jackson</strong>
+            <div style='background: white; padding: 15px; border-radius: 15px; 
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(240,147,251,0.3)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
+                <img src='assets/michael-jackson.jpg' 
+                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
+                     onerror="this.src='https://via.placeholder.com/200x180/f093fb/ffffff?text=MJ'"/>
+                <strong style='color: #f093fb; font-size: 1.2em; display: block; margin-bottom: 5px;'>Michael Jackson</strong>
+                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>13 músicas #1</p>
             </div>
-            <div style='background: white; padding: 20px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Madonna_Rebel_Heart_Tour_2015_-_Stockholm_%2823051472299%29_%28cropped%29.jpg/300px-Madonna_Rebel_Heart_Tour_2015_-_Stockholm_%2823051472299%29_%28cropped%29.jpg' 
-                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
-                <strong style='color: #667eea; font-size: 1.1em;'>Madonna</strong>
+            <div style='background: white; padding: 15px; border-radius: 15px; 
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(79,172,254,0.3)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
+                <img src='assets/madonna.jpg' 
+                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
+                     onerror="this.src='https://via.placeholder.com/200x180/4facfe/ffffff?text=Madonna'"/>
+                <strong style='color: #4facfe; font-size: 1.2em; display: block; margin-bottom: 5px;'>Madonna</strong>
+                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>12 músicas #1</p>
             </div>
-            <div style='background: white; padding: 20px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elvis_Presley_promoting_Jailhouse_Rock.jpg/300px-Elvis_Presley_promoting_Jailhouse_Rock.jpg' 
-                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
-                <strong style='color: #667eea; font-size: 1.1em;'>Elvis Presley</strong>
+            <div style='background: white; padding: 15px; border-radius: 15px; 
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(250,112,154,0.3)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
+                <img src='assets/elvis.jpg' 
+                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
+                     onerror="this.src='https://via.placeholder.com/200x180/fa709a/ffffff?text=Elvis'"/>
+                <strong style='color: #fa709a; font-size: 1.2em; display: block; margin-bottom: 5px;'>Elvis Presley</strong>
+                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>18 músicas #1</p>
             </div>
-            <div style='background: white; padding: 20px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png/300px-191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png' 
-                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
-                <strong style='color: #667eea; font-size: 1.1em;'>Taylor Swift</strong>
+            <div style='background: white; padding: 15px; border-radius: 15px; 
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(48,207,208,0.3)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
+                <img src='assets/taylor-swift.jpg' 
+                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
+                     onerror="this.src='https://via.placeholder.com/200x180/30cfd0/ffffff?text=Taylor'"/>
+                <strong style='color: #30cfd0; font-size: 1.2em; display: block; margin-bottom: 5px;'>Taylor Swift</strong>
+                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>9 músicas #1</p>
             </div>
-            <div style='background: white; padding: 20px; border-radius: 12px; 
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s;'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Drake_July_2016.jpg/300px-Drake_July_2016.jpg' 
-                     style='width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;'/>
-                <strong style='color: #667eea; font-size: 1.1em;'>Drake</strong>
+            <div style='background: white; padding: 15px; border-radius: 15px; 
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;'
+                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 8px 20px rgba(168,237,234,0.3)'"
+                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'">
+                <img src='assets/drake.jpg' 
+                     style='width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;'
+                     onerror="this.src='https://via.placeholder.com/200x180/a8edea/333333?text=Drake'"/>
+                <strong style='color: #a8edea; font-size: 1.2em; display: block; margin-bottom: 5px;'>Drake</strong>
+                <p style='color: #6B7280; font-size: 0.9em; margin: 0;'>11 músicas #1</p>
             </div>
         </div>
     </div>
