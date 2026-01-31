@@ -1,5 +1,9 @@
 # Billboard Explorer
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://billboard-spotify-app-lrx.streamlit.app/)
+
+**🔗 Aplicação Online:** https://billboard-spotify-app-lrx.streamlit.app/
+
 Aplicação web interativa para explorar o histórico da Billboard Hot 100, permitindo consultar as músicas mais populares dos EUA desde 1958, com integração ao Spotify para ouvir as faixas.
 
 ## Sobre o Projeto
