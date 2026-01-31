@@ -4,13 +4,16 @@ Aplicação web interativa para explorar o histórico da Billboard Hot 100, perm
 
 ## Sobre o Projeto
 
-Billboard Explorer é uma ferramenta que combina dados históricos da Billboard com a API do Spotify, oferecendo uma experiência visual moderna para descobrir e explorar os maiores hits musicais de cada época.
+Billboard Explorer é uma ferramenta que combina dados históricos da Billboard com links diretos para o Spotify, oferecendo uma experiência visual moderna para descobrir e explorar os maiores hits musicais de cada época.
+
+A aplicação utiliza uma abordagem inovadora para integração com o Spotify: ao invés de depender da API (que requer autenticação e tem limites), gera links de busca diretos que funcionam 100% do tempo, sem necessidade de credenciais ou configuração adicional.
 
 ## Funcionalidades
 
 - Consulta do Billboard Hot 100 por mês e ano (desde 1958)
 - Visualização do Top 10 com cards visuais estilizados
-- Links diretos para ouvir músicas no Spotify
+- Links de busca diretos para o Spotify (100% de disponibilidade)
+- Gráficos interativos com Plotly para análise de dados
 - Estatísticas do chart (total de músicas, artista mais frequente, média de semanas)
 - Exportação de dados em CSV e JSON
 - Interface responsiva com design moderno
@@ -32,14 +35,13 @@ Billboard Explorer é uma ferramenta que combina dados históricos da Billboard 
 - **Python 3.8+**: Linguagem principal
 - **Streamlit**: Framework para interface web
 - **billboard.py**: Biblioteca para acessar dados da Billboard
-- **Spotipy**: Cliente Python para Spotify Web API
+- **Plotly**: Biblioteca para gráficos interativos
 - **Pandas**: Manipulação e análise de dados
 - **Pillow**: Processamento de imagens
 
 ## Pré-requisitos
 
 - Python 3.8 ou superior
-- Conta no Spotify Developer (para credenciais da API)
 - Conexão com internet
 
 ## Instalação
@@ -71,20 +73,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure as credenciais do Spotify
-
-1. Acesse o [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-2. Faça login com sua conta Spotify
-3. Clique em "Create an App"
-4. Preencha os dados do aplicativo
-5. Copie o **Client ID** e **Client Secret**
-6. Crie um arquivo `.env` na raiz do projeto:
-
-```env
-SPOTIPY_CLIENT_ID=seu_client_id_aqui
-SPOTIPY_CLIENT_SECRET=seu_client_secret_aqui
-```
-
 ## Como Usar
 
 ### Executar a aplicação
@@ -94,6 +82,16 @@ streamlit run app.py
 ```
 
 A aplicação será aberta automaticamente no navegador em `http://localhost:8501`
+
+### Integração com Spotify
+
+A aplicação utiliza **links de busca diretos** do Spotify, que não requerem autenticação ou configuração de API. Quando você clica em "Buscar no Spotify", o link abre automaticamente uma busca no Spotify com o nome da música e artista, funcionando 100% do tempo sem dependências externas.
+
+**Vantagens desta abordagem:**
+- ✅ Sem necessidade de credenciais ou configuração
+- ✅ 100% de disponibilidade (não depende de APIs)
+- ✅ Sem limites de requisições
+- ✅ Funciona para qualquer período (1958-2026)
 
 ### Navegação
 
@@ -173,10 +171,10 @@ git log --oneline --graph
 
 ## Solução de Problemas
 
-### Spotify API não funciona
-- Verifique se as credenciais estão corretas no `.env`
-- Confirme que o app está ativo no Spotify Developer Dashboard
-- Aguarde alguns minutos após criar o app (pode haver delay)
+### Links do Spotify não abrem
+- Verifique sua conexão com internet
+- Certifique-se de que o Spotify está instalado ou use o Spotify Web
+- Tente abrir o link manualmente copiando a URL
 
 ### Erro ao carregar dados
 - Verifique sua conexão com internet
